@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+</head>
+
+<body>
+  <script>
+    var rd = num => Math.floor(Math.random() * num);
+    var tap = 0;
+    var level = localStorage.getItem('level') || 1;
+
+    var duh = {
+      position: ["absolute", "relative", "fixed", "flexible"],
+      color: ["red", 'white', 'yellow', 'purple', 'green', "blue"],
+      display: ['flex', 'block'],
+      align: ['center', 'left', 'right', 'bottom', 'top']
+    }
+
+
+    if (level > 1) {
+      if (!confirm(`We found your saved Job:\nLevel: ${level}\n\nDo you want to Continue your job?\n\nOK: Yes\nCancel: No, Go back to level 1.`)) {
+        localStorage.removeItem('level');
+        level = 1;
+      }
+    } else {
+      alert('How to play:\n\n1. Search the button, or a text says "here!"\n2. Tap everywhere to shuffle all blocks\n3. Enjoy!');
+    }
+
+    function cr(ert) {
+      var elements = document.querySelectorAll('div');
+      var doc = document.createElement('div')
+      doc.style.border = 'solid';
+      doc.style['border-radius'] = `${rd(10)}px`;
+      doc.style['color'] = 'black';
+      doc.style.background = 'white';
+      doc.innerHTML = ert || '    ';
+      doc.style.display = 'flex';
+      doc.style.position = 'relative';
+      doc.style['text-align'] = 'center';
+      document.body.appendChild(doc);
+      for (el in elements) {
+        var element = elements[el];
+        if (!element.style) continue;
+        element.style.position = duh.position[Math.floor(Math.random() * duh.position.length)];
+        element.style.top = rd(100);
+        element.style.left = rd(100);
+        element.style.right = rd(100);
+        element.style.bottom = rd(100);
+        element.style.display = duh.display[rd(3)];
+        element.style.width = `${rd(100)}vh`;
+        element.style.height = `${rd(100)}vh`;
+        element.style['text-align'] = duh.align[rd(5)];
+        element.style['font-size'] = rd(100);
+        element.style['z-index'] = rd(1000000000);
+      }
+      return doc;
+    }
+
+    function init() {
+      document.open();
+      window.onclick = () => {
+        cr();
+        tap++;
+        document.title = `Tap: ${tap}`;
+      }
+      document.title = 'Shuffling....';
+      tap = 0;
+      var e = setInterval(cr);
+      setTimeout(() => {
+        cr('<a onclick=`win();` href=\'#\'><h1>HERE!</h1></a>').onclick = () => {
+          window.onclick = null;
+          return win();
+        }
+        tap = 0;
+        clearInterval(e)
+        document.title = `Level: ${level}`;
+      }, 10 * (level || 1));
+      document.close();
+    }
+
+    function win() {
+      window.onclick = null;
+      var cnt = confirm('You win!\n\nTotal Tap\'s: ' + tap + '\nWanna try again?');
+      if (!cnt) return;
+      level++;
+      localStorage.setItem('level', level);
+      init();
+    }
+
+    window.onload = init;
+  </script>
+  <h1>Hmm.... It seens like javascript is not enabled</h1>
+  <p>This games requires javascript to work, Please enable it / Update your browser and try again.</p>
+</body>
+
+</html>
