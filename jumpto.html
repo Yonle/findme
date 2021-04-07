@@ -1,6 +1,6 @@
 <script>
   var lv = new Number(prompt('What level do you want to jump to?'));
-  if (lv.length > 0 && lv !== NaN) {
+  if (lv.length !==  '' && lv !== NaN) {
     localStorage.setItem('level', lv);
     location.href = '/';
   } else {
