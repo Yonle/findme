@@ -82,8 +82,8 @@
 
     function win() {
       window.onclick = null;
-      var cnt = confirm('You win!\n\nTotal Tap\'s: ' + tap + '\nWanna try again?');
-      if (!cnt) return;
+      var cnt = confirm('You win!\n\nTotal Tap\'s: ' + tap + '\nGo to next level?');
+      if (!cnt) return init();
       level++;
       localStorage.setItem('level', level);
       init();
