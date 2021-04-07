@@ -66,13 +66,14 @@
         document.title = `Tap: ${tap}`;
       }
       document.title = 'Shuffling....';
-      tap = 0;
-      var e = setInterval(cr);
-      setTimeout(() => {
-        cr('<a onclick=`win();` href=\'#\'><h1>HERE!</h1></a>').onclick = () => {
+      cr('<a onclick=`win();` href=\'#\'><h1>HERE!</h1></a>').onclick = () => {
           window.onclick = null;
           return win();
         }
+      tap = 0;
+      var e = setInterval(cr);
+      setTimeout(() => {
+        
         tap = 0;
         clearInterval(e)
         document.title = `Level: ${level}`;
